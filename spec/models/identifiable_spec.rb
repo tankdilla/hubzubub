@@ -21,5 +21,13 @@ describe Identifiable do
       s.email_address.should == "guy@email.com"
     end
     
+    it "should clear identifiable fields" do
+      Someclass.create_field("email_address")
+      Someclass.create_field("twitter")
+      Someclass.identifiable_fields.size.should == 2
+      Someclass.drop_identifiable_fields
+      Someclass.identifiable_fields.size.should == 0
+    end
+    
   end
 end

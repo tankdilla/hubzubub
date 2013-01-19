@@ -6,5 +6,5 @@ class IdentifiableEntry
   #field :reference_url
   #field :image_url
   
-  belongs_to :identifiable_field
+  belongs_to :identifiable_field, :dependent=>:destroy
 end

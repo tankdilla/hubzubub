@@ -1,3 +1,3 @@
 class Business < Entity
-  has_many :address
+  has_many :addresses
 end
