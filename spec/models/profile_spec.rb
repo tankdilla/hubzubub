@@ -10,8 +10,13 @@ describe Profile do
       p.save.should == true
       
       prof = Profile.new
-      prof.people << p
+      prof.persons << p
       prof.save.should == true
+    end
+
+    it "should add a site to scan for activity" do
+      pending
+      p.add_activity("add", :website=>"www.reddit.com")
     end
   end
 end

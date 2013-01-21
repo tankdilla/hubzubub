@@ -3,6 +3,10 @@ module Identifiable
     def identifiable_fields
       @@identifiable_fields ||= IdentifiableField.where(class_name: self.to_s).collect(&:field_name) || Array.new
     end
+
+    def identifiables
+      IdentifiableField.where(class_name: self.to_s).in(field_name: identifiable_fields)
+    end
     
     def reset_identifiable_fields
       @@identifiable_fields = Array.new

@@ -3,7 +3,7 @@ class IdentifiableField
   field :field_name
   field :class_name
   field :description
-  #field :field_type
   
+  has_many :field_properties
   has_many :identifiable_entries
 end
