@@ -1,0 +1,12 @@
+- @person.identifiable_entries.each do |e|
+	= e.identifiable_field.field_name.titleize
+	: 
+	= e.field_value
+
+- unless @person.activities.blank?
+	%p
+		Recent activity:
+		- @person.activities.each do |a|
+			= a.description
+			:
+			= link_to a.url, a.url

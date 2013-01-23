@@ -10,6 +10,7 @@ class Activity
   extend  Identifiable::ClassMethods
   
   has_many :identifiable_entries
+  belongs_to :website
   belongs_to :profile
   belongs_to :entity
 
@@ -19,11 +20,5 @@ class Activity
   	!entity.blank? && !profile.blank?
   end
 
-  class << self
-    def initialize_identifiables #may move to some kind of initializer
-      %w{action url}.each do |i|
-        Activity.create_field(i)
-      end
-    end
-  end
+  
 end

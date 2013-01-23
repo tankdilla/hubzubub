@@ -16,9 +16,17 @@ class Person < Entity
     end
   end
 
+  def populated_identifiables
+    identifiable_entries.select{|e| !e.field_value.blank?}
+  end
+
   def identifier
     return name unless name.blank?
-    return identifiable_entries.select{|e| !e.field_value.blank?}.first
+    populated_identifiables.first.field_value
+  end
+
+  def identifier_value
+    identifier.field_value
   end
   
   class << self
