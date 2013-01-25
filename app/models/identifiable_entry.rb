@@ -1,5 +1,6 @@
 class IdentifiableEntry
   include Mongoid::Document
+  include Mongoid::Timestamps
   
   field :field_value
   #field :priority

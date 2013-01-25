@@ -78,3 +78,5 @@ pickle-email-*.html
 
 #gemfile.lock
 Gemfile.lock
+
+*.*~

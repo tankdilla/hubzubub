@@ -1,0 +1,26 @@
+= form_for @person do |f|
+  -if @person.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+      %ul
+        - @person.errors.full_messages.each do |msg|
+          %li= msg
+
+  Enter at least one field
+  .field
+    = f.label "Name "
+    = f.text_field :name
+  .field
+    = f.label "Handle "
+    = f.text_field :handle
+  .field
+    = f.label "Email (optional)"
+    = f.text_field :email_address
+  .field
+    = f.label "Twitter Handle"
+    = f.text_field :twitter
+  .field
+    = f.label "Webpage"
+    = f.text_field :webpage
+  .actions
+    = f.submit 'Save'

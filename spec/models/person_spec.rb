@@ -18,7 +18,7 @@ describe Person do
     
     it "should have predefined identifiable fields for email, twitter, and webpage" do
       Person.initialize_identifiables
-      Person.identifiable_fields.size.should == 3
+      Person.identifiable_fields.size.should == 4
     end
     
     it "should require a name or identifiable field before saving" do
@@ -33,7 +33,15 @@ describe Person do
       end
     end
 
-    
+    it "should populate the name field if an identifiable field is populated" do
+      Person.initialize_identifiables
+      p = Person.new
+	  p.handle = "joeblo"
+      p.populated_identifiables.blank?.should be_false
+      p.populated_identifiables.size.should == 1
+      p.identifier_value.should == "joeblo"
+
+    end
     
   end
 end

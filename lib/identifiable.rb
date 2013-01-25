@@ -1,7 +1,7 @@
 module Identifiable
   module ClassMethods
     def identifiable_fields
-      @@identifiable_fields ||= IdentifiableField.where(class_name: self.to_s).collect(&:field_name) || Array.new
+	  @@identifiable_fields ||= IdentifiableField.where(class_name: self.to_s).collect(&:field_name) || Array.new
     end
 
     def identifiables
@@ -53,8 +53,10 @@ module Identifiable
         ifield_value = ifield_entries.collect(&:field_value)
         
         if ifield_value.size == 1
-          ifield_value.first
-        else
+          ifield_value.last
+		elsif ifield_value.blank?
+		  nil
+		else
           ifield_value
         end
         
@@ -65,6 +67,7 @@ module Identifiable
     
     def set_field_value(name, value)
       ifield = IdentifiableField.where(field_name: name, class_name: self.class.to_s).first
+	  debugger
       if ifield
         self.identifiable_entries << IdentifiableEntry.new(field_value: value, identifiable_field_id: ifield.id)
       end

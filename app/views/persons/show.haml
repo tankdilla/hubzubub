@@ -1,6 +1,12 @@
+Person:
+= @person.name
+
+%p
+
 - @person.identifiable_entries.each do |e|
+	%p
 	= e.identifiable_field.field_name.titleize
-	: 
+	\: 
 	= e.field_value
 
 - unless @person.activities.blank?
@@ -8,5 +14,11 @@
 		Recent activity:
 		- @person.activities.each do |a|
 			= a.description
-			:
+			\:
 			= link_to a.url, a.url
+%p
+= link_to 'Edit', edit_person_path(@person)
+\|
+= link_to 'Add Activity', new_person_activity_path(@person)
+\|
+= link_to 'Destroy', @person, :confirm => 'Are you sure?', :method => :delete

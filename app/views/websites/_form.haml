@@ -1,0 +1,16 @@
+= form_for @website do |f|
+  -if @website.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@website.errors.count, "error")} prohibited this website from being saved:"
+      %ul
+        - @website.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label "Url"
+    = f.text_field :name
+  .field
+    = f.label "Query string"
+    = f.text_field :query_string
+  .actions
+    = f.submit 'Save'

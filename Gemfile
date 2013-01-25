@@ -35,3 +35,4 @@ gem "figaro", ">= 0.5.0"
 gem "hub", ">= 1.10.2", :require => nil, :group => [:development]
 
 gem "nokogiri"
+gem "httparty"

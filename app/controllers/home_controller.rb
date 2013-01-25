@@ -9,9 +9,12 @@ class HomeController < ApplicationController
     end
 
     if params[:person] && @person.nil?
-    	flash[:notice] = "Person not found.	"
+    	flash[:notice] = "Person not found"
     elsif params[:business] && @business.nil?
     	flash[:notice] = "Business not found."
     end
+	
+	@persons = Person.all
+	@businesses = Business.all
   end
 end

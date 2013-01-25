@@ -80,3 +80,7 @@ module Hubzubub
     config.assets.version = '1.0'
   end
 end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'person', 'persons'
+end
