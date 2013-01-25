@@ -32,6 +32,7 @@ describe Person do
         p.save.should == true
       end
     end
+
     
     
   end
