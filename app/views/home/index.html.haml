@@ -2,8 +2,15 @@
 	= link_to "Add a person", new_person_path
 %p
 	= link_to "Add a business", new_business_path
-= form_tag(root_path) do
-	Search person
-	= text_field_tag 'person'
-	Search business
-	= text_field_tag 'business'
+
+- unless @persons.blank?
+	%p
+		People
+		- @persons.each do |p|
+			link_to p.identifier_value, person_path(p)
+
+- unless @businesses.blank?
+	%p
+		Company
+		- @businesses.each do |b|
+			link_to b.identifier_value, business_path(b)

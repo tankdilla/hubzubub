@@ -12,7 +12,7 @@ class Person < Entity
   
   def set_defaults
     if name.blank?
-      name = identifier
+      name = identifier_value
     end
   end
 
