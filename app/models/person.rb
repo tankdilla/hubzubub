@@ -2,18 +2,11 @@ class Person < Entity
   has_many :addresses
   belongs_to :profile
   
-  before_save :set_defaults
-  validate :has_one_identifiable_entry       
-  
-  def has_one_identifiable_entry
-    return true if !name.blank?
-    return false if identifiable_entries.blank?
-    return true unless identifiable_entries.select{|e| e.field_value.blank?}.blank?
-  end
+  before_validation :set_defaults
+  validates_presence_of :name
   
   def set_defaults
     if self.name.blank?
-	  debugger
       self.name = identifier_value
     end
 	true
@@ -25,11 +18,11 @@ class Person < Entity
 
   def identifier
     return name unless name.blank?
-	unless populated_identifiables.empty?
-	  populated_identifiables.first
-	else
-	  nil
-	end
+    unless populated_identifiables.empty?
+  	  populated_identifiables.first
+  	else
+  	  nil
+  	end
   end
 
   def identifier_value

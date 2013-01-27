@@ -53,7 +53,6 @@ class PersonsController < ApplicationController
 	end
     
     respond_to do |format|
-			debugger
       if @person.save
         format.html { redirect_to  @person, notice: 'Person was successfully created.' }
         format.json { render json: @person, status: :created, location: @person }
@@ -69,7 +68,6 @@ class PersonsController < ApplicationController
   def update
     @person = Person.find(params[:id])
 	populate_attributes(@person, params[:person])
-    debugger 
     respond_to do |format|
       if @person.save
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
@@ -88,7 +86,7 @@ class PersonsController < ApplicationController
     @person.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_persons_url(@user) }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
