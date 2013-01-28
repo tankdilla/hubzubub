@@ -1,0 +1,13 @@
+%p
+	Search Url:
+	= @search.url
+%p
+	Results
+	= !@search.results.blank?
+
+%p
+= link_to 'Home', root_path
+\|
+= link_to 'Edit', edit_website_search_path(@website, @search)
+\|
+= link_to 'Destroy', [@website, @search], :confirm => 'Are you sure?', :method => :delete
