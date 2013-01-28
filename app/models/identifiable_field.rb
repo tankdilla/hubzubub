@@ -4,6 +4,6 @@ class IdentifiableField
   field :class_name
   field :description
   
-  has_many :field_properties
-  has_many :identifiable_entries
+  # has_many :field_properties
+  has_many :identifiable_entries, :dependent=>:destroy
 end

@@ -43,17 +43,14 @@ class PersonsController < ApplicationController
   # POST /persons.json
   def create
     @person = Person.new
-	populate_attributes(@person, params[:person])
-	Person.new do |p|
-	  if params[:person]
-	    params[:person].keys.each do |field|
-		  p.send("#{field}=", params[:person][field])
-		end
-	  end
-	end
+  	populate_attributes(@person, params[:person])
     
     respond_to do |format|
       if @person.save
+        @person = Person.find(@person.id)
+        populate_attributes(@person, params[:person])
+        @person.save
+
         format.html { redirect_to  @person, notice: 'Person was successfully created.' }
         format.json { render json: @person, status: :created, location: @person }
       else
@@ -67,9 +64,11 @@ class PersonsController < ApplicationController
   # PUT /persons/1.json
   def update
     @person = Person.find(params[:id])
-	populate_attributes(@person, params[:person])
+
+    populate_attributes(@person, params[:person])
     respond_to do |format|
-      if @person.save
+      
+      if @person.save && @person.identifiable_entries.each(&:save!)
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,7 +94,9 @@ class PersonsController < ApplicationController
   def populate_attributes(instance, params)
 	if params && params.is_a?(Hash) && !params.keys.empty?
 	  params.keys.each do |field|
-	    instance.send("#{field}=", params[field])
+      unless params[field].blank?
+        instance.send("#{field}=", params[field])
+      end
 	  end
 	end
 	

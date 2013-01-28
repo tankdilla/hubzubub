@@ -4,6 +4,7 @@ class Activity
   field :description
   field :recorded_at, type: DateTime
   field :reference_date, type: DateTime
+  field :url
 
   require 'identifiable'
   include Identifiable::InstanceMethods

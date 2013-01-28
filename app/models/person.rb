@@ -1,6 +1,8 @@
 class Person < Entity
+
   has_many :addresses
   belongs_to :profile
+  has_many :identifiable_entries, :dependent=>:destroy
   
   before_validation :set_defaults
   validates_presence_of :name

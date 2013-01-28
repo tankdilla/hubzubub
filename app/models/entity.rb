@@ -10,5 +10,5 @@ class Entity
   extend Identifiable::ClassMethods
   
   has_many :activities
-  embeds_many :identifiable_entries
+
 end

@@ -2,6 +2,8 @@
 	= link_to "Add a person", new_person_path
 %p
 	= link_to "Add a business", new_business_path
+%p
+	= link_to "Add a website", new_website_path
 
 - unless @persons.blank?
 	People
@@ -14,4 +16,11 @@
 	%p
 		Company
 		- @businesses.each do |b|
-			= link_to b.identifier_value, business_path(b)
+			= link_to b.name, business_path(b)
+
+- unless @websites.blank?
+	Sites
+	%ul	
+	- @websites.each do |w|
+		%li
+			= link_to w.url, website_path(w)

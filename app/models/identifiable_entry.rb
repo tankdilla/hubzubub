@@ -7,5 +7,7 @@ class IdentifiableEntry
   #field :reference_url
   #field :image_url
   
-  belongs_to :identifiable_field, :dependent=>:destroy
+  belongs_to :identifiable_field
+  belongs_to :person
+  belongs_to :business
 end

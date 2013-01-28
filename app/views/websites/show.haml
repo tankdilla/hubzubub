@@ -1,3 +1,20 @@
 %p
 	Website:
 	= @website.url
+
+%p
+	Query string:
+	= @website.query_string
+%p
+	Next page param:
+	= @website.next_page_param
+%p
+	Next page increment:
+	= @website.next_page_increment
+
+%p
+= link_to 'Home', root_path
+\|
+= link_to 'Edit', edit_website_path(@website)
+\|
+= link_to 'Destroy', @website, :confirm => 'Are you sure?', :method => :delete

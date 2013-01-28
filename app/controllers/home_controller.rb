@@ -16,5 +16,6 @@ class HomeController < ApplicationController
 	
 	@persons = Person.all
 	@businesses = Business.all
+    @websites = Website.all
   end
 end

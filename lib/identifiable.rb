@@ -68,7 +68,12 @@ module Identifiable
     def set_field_value(name, value)
       ifield = IdentifiableField.where(field_name: name, class_name: self.class.to_s).first
       if ifield
-        self.identifiable_entries << IdentifiableEntry.new(field_value: value, identifiable_field_id: ifield.id)
+        existing_entry = self.identifiable_entries.where(identifiable_field_id: ifield.id).first
+        if existing_entry
+          existing_entry.field_value = value
+        else
+          self.identifiable_entries << IdentifiableEntry.new(field_value: value, identifiable_field_id: ifield.id)
+        end
       end
     end
     

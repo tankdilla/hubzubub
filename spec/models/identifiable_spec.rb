@@ -4,6 +4,7 @@ describe Identifiable do
   describe "create identifiable fields" do
     before(:each) do
       class Someclass < Entity
+        embeds_many :identifiable_entries
       end
       Someclass.drop_identifiable_fields
       Someclass.create_field("email_address")

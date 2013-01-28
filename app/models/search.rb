@@ -40,3 +40,8 @@ class Page
   include HTTParty
   parser HtmlParserIncluded
 end
+
+class JSONPage
+  include HTTParty
+  parser :json
+end
