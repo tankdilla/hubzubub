@@ -4,6 +4,7 @@ class Search
   include Mongoid::Document
   field :url
   field :result
+  field :parsed_result
   field :format
 
   belongs_to :website
@@ -27,14 +28,16 @@ class Search
   	JSON.parse(open(url))
   end
 
-	def find_term_in_results(search_term)
+	def find_term_in_results#(search_term)
 		
 		results_array = Array.new
-		return nil if result.blank?
-		doc = Nokogiri::HTML(result)
-		if website.base_url.ends_with?('www.google.com')
+		#return nil if result.blank?
+		doc = Nokogiri::HTML(run_search) #(result)
+    debugger
+		if true #website.base_url.ends_with?('www.google.com')
 		  doc.xpath('//cite').each do |node|
-			results_array << node.text
+        debugger
+		    results_array << node.text
 		  end
 		end
 		results_array

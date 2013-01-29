@@ -8,8 +8,7 @@ class SearchesController < ApplicationController
     @searches = @website.searches.all
 
     respond_to do |format|
-      #format.html # index.html.erb
-	    redirect_to root_path
+      format.html #index.html.erb
       format.json { render json: @searches }
     end
   end
@@ -22,11 +21,12 @@ class SearchesController < ApplicationController
 		@person_results = Array.new
 		
 		if params[:search_result]
+      debugger
 			if params[:search_result][:person_id]
-				person = Person.where(id: params[:search_result][:person_id].to_i).first
+				person = Person.where(id: params[:search_result][:person_id]).first
 				if person
-					results = @search.find_term_in_results(person.name)
-					@person_results = person.create_activities(results)
+					results = @search.find_term_in_results#(person.name)
+					@person_results = person.create_activities(results) unless results.blank?
 				end
 			end
 		end
@@ -118,7 +118,7 @@ class SearchesController < ApplicationController
   end
 
   def find_website
-    @website = Website.where(id: params[:website])
+    @website = Website.where(id: params[:website_id]).first
   end
 
 end

@@ -3,14 +3,14 @@
 	= @search.url
 %p
 	Results
-	= !@search.results.blank?
+	= !@search.result.blank?
 
 - if @person_results.blank?
-	= form_for(:search_result, :url=>website_search_path(@website, @search)) do
+	= form_for(:search_result, :url=>website_search_path(@website, @search), :html=>{:method=>:get}) do |f|
 		%p
 			Tag user in search
-			= collection_select(:search_result, :person_id, @persons, :id, :name)
-			= submit_button("Select)
+			= f.collection_select(:person_id, @persons, :id, :name)
+			= f.submit "Select"
 - else
 	%p
 		Created activities

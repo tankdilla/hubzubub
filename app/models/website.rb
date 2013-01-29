@@ -18,7 +18,7 @@ class Website < Entity
 			s.format = format
 		end
 		
-		s.result = s.run_search
+		#s.result = s.run_search
 		s
 	end
 
