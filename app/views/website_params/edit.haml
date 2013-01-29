@@ -1,6 +1,6 @@
 %h1 Editing website_param
 
-= render 'form'
+= render :partial=>'form', :locals=>{:path_var=>website_param_path(@website, @website_param)}
 
 = link_to 'Show', @website_param
 \|

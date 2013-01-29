@@ -7,4 +7,6 @@ class WebsiteParam
   field :field_value
   
   embedded_in :website
+	
+	validates_presence_of :field_name
 end

@@ -5,7 +5,14 @@
 - unless @website.website_params.blank?
 	%ul
 		- @website.website_params.each do |s|
-			= link_to s.url, website_search_path(@website, s)
+			%li
+				param:
+				= link_to s.field_name, website_param_path(@website, s)
+				- unless s.description.blank?
+					, description:
+					= s.description
+				, value:
+				= s.field_value
 
 %p
 	= link_to "New Param", new_website_param_path(@website)

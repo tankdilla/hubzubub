@@ -43,11 +43,12 @@ class WebsiteParamsController < ApplicationController
   # POST /websites.json
   def create
     @website_param = @website.website_params.new
-		populate_attributes(@website_param, params[:website])
+		
+		populate_attributes(@website_param, params[:website_param])
     
     respond_to do |format|
       if @website_param.save
-        format.html { redirect_to  [@website, @website_param], notice: 'Website params was successfully created.' }
+        format.html { redirect_to website_params_path(@website), notice: 'Website params was successfully created.' }
         format.json { render json: @website_param, status: :created, location: @website_param }
       else
         format.html { render action: "new" }
@@ -63,7 +64,7 @@ class WebsiteParamsController < ApplicationController
 		populate_attributes(@website_param, params[:website])
     respond_to do |format|
       if @website_param.save
-        format.html { redirect_to [@website, @website_param], notice: 'Website params was successfully updated.' }
+        format.html { redirect_to website_params_path(@website), notice: 'Website params was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -79,7 +80,7 @@ class WebsiteParamsController < ApplicationController
     @website_param.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to website_params_path(@website) }
       format.json { head :no_content }
     end
   end

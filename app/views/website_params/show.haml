@@ -1,27 +1,16 @@
 %p
-	Search Url:
-	= @website_param.url
+	Field name:
+	= @website_param.field_name
 %p
-	Results
-	= !@website_param.result.blank?
-
-- if @person_results.blank?
-	= form_for(:website_param_result, :url=>website_website_param_path(@website, @website_param), :html=>{:method=>:get}) do |f|
-		%p
-			Tag user in website_param
-			= f.collection_select(:person_id, @persons, :id, :name)
-			= f.submit "Select"
-- else
-	%p
-		Created activities
-		%ul
-			- @person_results.each do |a|
-				%li
-					= "#{a.person.name}: #{a.url}"
+	Description
+	= @website_param.description
+%p
+	Value:
+	= @website_param.field_value
 
 %p
 = link_to 'Home', root_path
 \|
-= link_to 'Edit', edit_website_website_param_path(@website, @website_param)
+= link_to 'Edit', edit_website_param_path(@website, @website_param)
 \|
-= link_to 'Destroy', [@website, @website_param], :confirm => 'Are you sure?', :method => :delete
+= link_to 'Destroy', website_param_path(@website, @website_param), :confirm => 'Are you sure?', :method => :delete
