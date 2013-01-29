@@ -3,6 +3,7 @@ class Person < Entity
   has_many :addresses
   belongs_to :profile
   has_many :identifiable_entries, :dependent=>:destroy
+	has_many :activities
   
   before_validation :set_defaults
   validates_presence_of :name
@@ -32,16 +33,16 @@ class Person < Entity
   end
   
   def create_activities(links)
-    activity_links = activities.collect(&:url)
-	recorded_time = Time.now
-	links.each do |link|
-	  if activity_links.include?(link) == false
-		self.activities << Activity.create!(url: link, recorded_at: recorded_time)
-	  else
-		#log that activity has already been created
-	  end
-	end
-	return self.activities.where(recorded_at: recorded_time)
+		activity_links = activities.collect(&:url)
+		recorded_time = Time.now
+		links.each do |link|
+	  	if activity_links.include?(link) == false
+				self.activities << Activity.create!(url: link, recorded_at: recorded_time)
+	  	#else
+				#log that activity has already been created
+	  	end
+		end
+		return self.activities.where(recorded_at: recorded_time)
   end
   
   class << self

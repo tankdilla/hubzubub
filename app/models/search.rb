@@ -33,15 +33,14 @@ class Search
 		results_array = Array.new
 		#return nil if result.blank?
 		doc = Nokogiri::HTML(run_search) #(result)
-    debugger
 		if true #website.base_url.ends_with?('www.google.com')
 		  doc.xpath('//cite').each do |node|
-        debugger
 		    results_array << node.text
 		  end
 		end
 		results_array
 	end
+	
 end
 
 class HtmlParserIncluded < HTTParty::Parser

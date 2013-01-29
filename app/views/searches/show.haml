@@ -15,8 +15,8 @@
 	%p
 		Created activities
 		%ul
-			- @person_results.each do |p|
-				= p
+			- @person_results.each do |a|
+				= "#{a.person.name}: #{a.url}"
 
 %p
 = link_to 'Home', root_path

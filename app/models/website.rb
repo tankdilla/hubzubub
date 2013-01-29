@@ -22,11 +22,12 @@ class Website < Entity
 		s
 	end
 
-	def search_url(search_term)
+	def search_url(search_terms)
 		if !website_params.blank? && website_params.collect(&:field_name).include?('search_url_format')
 			#todo: user-specified params will allow custom search. still to be determined how best to do this
 		else
-			"#{base_url}/#{query_string}#{search_term}"
+			#this is google's format, each site will have its own
+			"#{base_url}/#{query_string}#{search_terms.split.join("+")}"
 		end
 	end
 

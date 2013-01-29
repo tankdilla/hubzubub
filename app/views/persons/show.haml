@@ -10,12 +10,13 @@ Person:
 	= e.field_value
 
 - unless @person.activities.blank?
-	%p
+	%ul
 		Recent activity:
 		- @person.activities.each do |a|
-			= a.description
-			\:
-			= link_to a.url, a.url
+			%li
+				= a.description
+				
+				= link_to a.url, a.url
 %p
 = link_to 'Home', root_path
 \|

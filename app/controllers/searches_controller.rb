@@ -21,7 +21,7 @@ class SearchesController < ApplicationController
 		@person_results = Array.new
 		
 		if params[:search_result]
-      debugger
+      
 			if params[:search_result][:person_id]
 				person = Person.where(id: params[:search_result][:person_id]).first
 				if person
@@ -57,15 +57,15 @@ class SearchesController < ApplicationController
   # POST /searchs.json
   def create
     @search = Search.new
-  	populate_attributes(@search, params[:search])
+		populate_attributes(@search, params[:search])
+		if params[:search_terms]
+			@search.url = @website.search_url(params[:search_terms])
+		end
     
     respond_to do |format|
       if @search.save
-        @search = Search.find(@search.id)
-        populate_attributes(@search, params[:search])
-        @search.save
-
-        format.html { redirect_to  @search, notice: 'Search was successfully created.' }
+        
+        format.html { redirect_to  [@website, @search], notice: 'Search was successfully created.' }
         format.json { render json: @search, status: :created, location: @search }
       else
         format.html { render action: "new" }
@@ -82,8 +82,8 @@ class SearchesController < ApplicationController
     populate_attributes(@search, params[:search])
     respond_to do |format|
       
-      if @search.save && @search.identifiable_entries.each(&:save!)
-        format.html { redirect_to @search, notice: 'Search was successfully updated.' }
+      if @search.save
+        format.html { redirect_to [@website, @search], notice: 'Search was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -108,7 +108,7 @@ class SearchesController < ApplicationController
   def populate_attributes(instance, params)
   	if params && params.is_a?(Hash) && !params.keys.empty?
   	  params.keys.each do |field|
-        unless params[field].blank?
+        unless params[field].blank? || instance.respond_to?(field.to_s) == false
           instance.send("#{field}=", params[field])
         end
   	  end

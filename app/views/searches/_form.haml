@@ -1,4 +1,4 @@
-= form_for @search do |f|
+= form_for [@website, @search] do |f|
   -if @search.errors.any?
     #error_explanation
       %h2= "#{pluralize(@search.errors.count, "error")} prohibited this search from being saved:"
@@ -7,13 +7,10 @@
           %li= msg
 
   .field
-    = f.label "Url"
-    = f.text_field :url
+    = f.label "Website:"
+    = @website.base_url
   .field
-    = f.label "Query string"
-    = f.text_field :query_string
-  .field
-    = f.label "Search term"
-    = f.text_field :search_term
+    = f.label "Search terms (separated by space)"
+    = text_field_tag :search_terms
   .actions
     = f.submit 'Save'

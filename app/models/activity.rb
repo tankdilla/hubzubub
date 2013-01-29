@@ -11,8 +11,8 @@ class Activity
   extend  Identifiable::ClassMethods
   
   has_many :identifiable_entries
-  belongs_to :website
-  belongs_to :profile
+  #belongs_to :website
+  #belongs_to :profile
   belongs_to :person
 
   #validate :entity_and_profile
