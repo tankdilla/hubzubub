@@ -5,6 +5,19 @@
 	Results
 	= !@search.results.blank?
 
+- if @person_results.blank?
+	= form_for(:search_result, :url=>website_search_path(@website, @search)) do
+		%p
+			Tag user in search
+			= collection_select(:search_result, :person_id, @persons, :id, :name)
+			= submit_button("Select)
+- else
+	%p
+		Created activities
+		%ul
+			- @person_results.each do |p|
+				= p
+
 %p
 = link_to 'Home', root_path
 \|

@@ -31,6 +31,19 @@ class Person < Entity
     identifier.field_value unless identifier.nil?
   end
   
+  def create_activities(links)
+    activity_links = activities.collect(&:url)
+	recorded_time = Time.now
+	links.each do |link|
+	  if activity_links.include?(link) == false
+		self.activities << Activity.create!(url: link, recorded_at: recorded_time)
+	  else
+		#log that activity has already been created
+	  end
+	end
+	return self.activities.where(recorded_at: recorded_time)
+  end
+  
   class << self
     def initialize_identifiables #may move to some kind of initializer
       %w{email_address webpage twitter handle}.each do |i|

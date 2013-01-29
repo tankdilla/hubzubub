@@ -15,7 +15,7 @@ class Search
   	when 'json'
   		json_search
   	else
-  		html_search
+  		html_search.body #figure this out...
   	end
   end
 
@@ -26,6 +26,19 @@ class Search
   def json_search
   	JSON.parse(open(url))
   end
+
+	def find_term_in_results(search_term)
+		
+		results_array = Array.new
+		return nil if result.blank?
+		doc = Nokogiri::HTML(result)
+		if website.base_url.ends_with?('www.google.com')
+		  doc.xpath('//cite').each do |node|
+			results_array << node.text
+		  end
+		end
+		results_array
+	end
 end
 
 class HtmlParserIncluded < HTTParty::Parser

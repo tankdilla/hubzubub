@@ -43,7 +43,6 @@ class WebsitesController < ApplicationController
   # POST /websites.json
   def create
     @website = Website.new
-    debugger
 	populate_attributes(@website, params[:website])
 	Website.new do |p|
 	  if params[:website]

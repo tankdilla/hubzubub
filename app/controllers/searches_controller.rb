@@ -5,7 +5,7 @@ class SearchesController < ApplicationController
   # GET /searchs
   # GET /searchs.json
   def index
-    @searches = Search.all
+    @searches = @website.searches.all
 
     respond_to do |format|
       #format.html # index.html.erb
@@ -18,6 +18,18 @@ class SearchesController < ApplicationController
   # GET /searchs/1.json
   def show
     @search = Search.find(params[:id])
+		@persons = Person.all
+		@person_results = Array.new
+		
+		if params[:search_result]
+			if params[:search_result][:person_id]
+				person = Person.where(id: params[:search_result][:person_id].to_i).first
+				if person
+					results = @search.find_term_in_results(person.name)
+					@person_results = person.create_activities(results)
+				end
+			end
+		end
 
     respond_to do |format|
       format.html # show.html.erb

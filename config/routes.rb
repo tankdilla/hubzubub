@@ -10,8 +10,8 @@ Hubzubub::Application.routes.draw do
     resources :activities
   end
 
-# resources :businesses
-# resources :profiles
+  resources :businesses
+  resources :profiles
   resources :websites do
     resources :searches
   end
