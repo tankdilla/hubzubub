@@ -43,14 +43,7 @@ class WebsitesController < ApplicationController
   # POST /websites.json
   def create
     @website = Website.new
-	populate_attributes(@website, params[:website])
-	Website.new do |p|
-	  if params[:website]
-	    params[:website].keys.each do |field|
-		  p.send("#{field}=", params[:website][field])
-		end
-	  end
-	end
+		populate_attributes(@website, params[:website])
     
     respond_to do |format|
       if @website.save
@@ -62,6 +55,28 @@ class WebsitesController < ApplicationController
       end
     end
   end
+	
+	def multi_create
+		if params[:add_websites]
+			website_urls = params[:add_websites]
+		end
+		
+		successful_creates = Array.new
+		fails = Array.new
+		website_urls.each do |u|
+			w = Website.new(base_url: u)
+			if w.save
+				successful_creates << w.base_url
+			else
+				fails << w.base_url
+			end
+		end
+		
+		respond_to do |format|
+			format.html { redirect_to root_path, notice: "Websites successfully created: #{successful_creates.join(",")}, fails: #{fails.join(",")}" }
+			format.json { render json: @website, status: :created, location: @website }
+    end
+	end
 
   # PUT /websites/1
   # PUT /websites/1.json

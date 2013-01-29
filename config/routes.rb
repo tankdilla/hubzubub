@@ -13,6 +13,10 @@ Hubzubub::Application.routes.draw do
   resources :businesses
   resources :profiles
   resources :websites do
+		member do
+			post 'multi_create'
+    end
     resources :searches
+		resources :params, :controller=>:website_params
   end
 end

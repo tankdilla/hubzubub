@@ -19,16 +19,29 @@ class SearchesController < ApplicationController
     @search = Search.find(params[:id])
 		@persons = Person.all
 		@person_results = Array.new
+		@found_websites = Array.new
+		search_results = Array.new
 		
 		if params[:search_result]
       
 			if params[:search_result][:person_id]
 				person = Person.where(id: params[:search_result][:person_id]).first
 				if person
-					results = @search.find_term_in_results#(person.name)
-					@person_results = person.create_activities(results) unless results.blank?
+					search_results = @search.find_term_in_results#(person.name)
+					@person_results = person.create_activities(search_results) unless search_results.blank?
 				end
 			end
+		end
+		
+		if !search_results.blank?
+			results = search_results.collect{|r| r.split("/").select{|s| Website.url_pattern?(s)}.first}.compact.uniq
+			results.each do |r|
+				existing_website = Website.where(url: "http://#{r}").or(url: "https://#{r}").first
+				if existing_website.nil?
+					@found_websites << r
+				end
+			end
+			
 		end
 
     respond_to do |format|
@@ -56,8 +69,8 @@ class SearchesController < ApplicationController
   # POST /searchs
   # POST /searchs.json
   def create
-    @search = Search.new
-		populate_attributes(@search, params[:search])
+    @search = @website.searches.new params[:search]
+		
 		if params[:search_terms]
 			@search.url = @website.search_url(params[:search_terms])
 		end

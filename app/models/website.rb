@@ -41,4 +41,12 @@ class Website < Entity
 			self.base_url = 'http://'+ self.base_url
 		end
 	end
+	
+	def self.url_pattern?(string)
+		string =~ /^[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$/
+	end
+	
+	def self.existing?(url)
+		Website.where(url: "http://#{url}").or(url: "https://#{url}").first
+	end
 end
