@@ -1,0 +1,18 @@
+= form_for [@website, @search] do |f|
+  -if @search.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@search.errors.count, "error")} prohibited this search from being saved:"
+      %ul
+        - @search.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label "Website:"
+    = @website.base_url
+  .field
+    - Search.search_types.each do |s|
+      = f.radio_button :search_type, s
+      = f.label s
+  .field
+    = f.label "Search url: "
+    = f.text_field :url, :size=>75

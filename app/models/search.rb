@@ -3,8 +3,7 @@ require 'nokogiri'
 class Search
   include Mongoid::Document
   field :url
-  field :result
-  field :parsed_result
+	field :search_type
   field :format
 
   belongs_to :website
@@ -39,6 +38,10 @@ class Search
 		  end
 		end
 		results_array
+	end
+	
+	def self.search_types
+		['search_site', 'parse_page']
 	end
 	
 end

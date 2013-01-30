@@ -1,16 +1,23 @@
-= form_for [@website, @search] do |f|
-  -if @search.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@search.errors.count, "error")} prohibited this search from being saved:"
-      %ul
-        - @search.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label "Website:"
-    = @website.base_url
+.search_url
+  = render 'search_url'
+    
+= form_for(@search, :url=>edit_website_search_url(@website, @search), :html=>{:method=>:get}, :remote=>true) do |f|
   .field
     = f.label "Search terms (separated by space)"
-    = text_field_tag :search_terms
+    = text_field_tag :search_terms, :size=>25
+  .field
+    = f.label "Add site-specific params"
+    %ul
+      - @site_search_params.each do |p|
+        %li
+          = f.label p.name || p.field_name
+          /:
+          = p.field_name
+          /=
+          = p.field_value
+  .actions
+    = f.submit 'Update'
+          
+= form_for [@website, @search] do |f|
   .actions
     = f.submit 'Save'

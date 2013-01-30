@@ -54,6 +54,10 @@ class SearchesController < ApplicationController
   # GET /searchs/new.json
   def new
     @search = Search.new
+		@search_types = Search.search_types
+    
+    @site_search_params = @website.website_params.search_params
+    @site_parse_params = @website.website_params.parse_params
     
     respond_to do |format|
       format.html # new.html.erb
@@ -64,6 +68,18 @@ class SearchesController < ApplicationController
   # GET /searchs/1/edit
   def edit
     @search = Search.find(params[:id])
+		@search_types = Search.search_types
+    @site_search_params = @website.website_params.search_params
+    @site_parse_params = @website.website_params.parse_params
+    
+    if params[:search_terms]
+      @search.url = @search.search_url(params[:search_terms])
+    end
+    
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /searchs

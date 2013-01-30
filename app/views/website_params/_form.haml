@@ -7,11 +7,14 @@
           %li= msg
 
   .field
-    = f.label "Field Name:"
-    = f.text_field :field_name
+    = f.label "Name:"
+    = f.text_field :name
   .field
     = f.label "Description:"
     = f.text_field :description
+  .field
+    = f.label "Field Name:"
+    = f.text_field :field_name
   .field
     = f.label "Value:"
     = f.text_field :field_value

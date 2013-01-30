@@ -1,9 +1,6 @@
 %p
 	Search Url:
 	= @search.url
-%p
-	Results
-	= !@search.result.blank?
 
 - if @person_results.blank? && @found_websites.blank?
 	= form_for(:search_result, :url=>website_search_path(@website, @search), :html=>{:method=>:get}) do |f|
