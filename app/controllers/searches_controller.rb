@@ -91,8 +91,12 @@ class SearchesController < ApplicationController
   # PUT /searchs/1.json
   def update
     @search = Search.find(params[:id])
+    #populate_attributes(@search, params[:search])
 
-    populate_attributes(@search, params[:search])
+    if params[:search_terms]
+      @search.url = @website.search_url(params[:search_terms])
+    end
+
     respond_to do |format|
       
       if @search.save
