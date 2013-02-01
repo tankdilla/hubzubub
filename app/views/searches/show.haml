@@ -1,34 +1,39 @@
 %p
-	Search Url:
-	= @search.url
+  %b Search Url:
+  = @search.url
+
+- unless @search.search_type.blank?
+  %b Type:
+  = @search.search_type.humanize
+    
 
 - if @person_results.blank? && @found_websites.blank?
-	= form_for(:search_result, :url=>website_search_path(@website, @search), :html=>{:method=>:get}) do |f|
-		%p
-			Tag user in search
-			= f.collection_select(:person_id, @persons, :id, :name)
-			= f.submit "Select"
+  = form_for(:search_result, :url=>website_search_path(@website, @search), :html=>{:method=>:get}) do |f|
+    %p
+      Tag user in search
+      = f.collection_select(:person_id, @persons, :id, :name, {}, :class=>'span2')
+      = f.submit "Run search"
 - else
-	- if !@found_websites.blank?
-		= form_for(:found_websites, :url=>multi_create_website_path(@website)) do |f|
-			%p
-				New websites found. Select to add
-				- @found_websites.each do |f|
-					%br
-						= check_box_tag("add_websites[]", f, true)
-						= f
-				= f.submit "Add"
-	- if !@person_results.blank?
-		%p
-			Created activities
-			%ul
-				- @person_results.each do |a|
-					%li
-						= "#{a.person.name}: #{a.url}"
+  - if !@found_websites.blank?
+    = form_for(:found_websites, :url=>multi_create_website_path(@website)) do |f|
+      %p
+        New websites found. Select to add
+        - @found_websites.each do |f|
+          %br
+            = check_box_tag("add_websites[]", f, true)
+            = f
+        = f.submit "Add"
+  - if !@person_results.blank?
+    %p
+      Created activities
+      %ul
+        - @person_results.each do |a|
+          %li
+            = "#{a.person.name}: #{a.url}"
 
 %p
 = link_to 'Home', root_path
 \|
-= link_to 'Edit', edit_website_search_path(@website, @search)
+= link_to 'Edit search params', edit_website_search_path(@website, @search)
 \|
 = link_to 'Destroy', [@website, @search], :confirm => 'Are you sure?', :method => :delete

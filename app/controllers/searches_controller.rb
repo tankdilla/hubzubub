@@ -73,7 +73,7 @@ class SearchesController < ApplicationController
     @site_parse_params = @website.website_params.parse_params
     
     if params[:search_terms]
-      @search.url = @search.search_url(params[:search_terms])
+      @search.url = @website.search_url(params[:search_terms])
     end
     
     respond_to do |format|
@@ -108,7 +108,8 @@ class SearchesController < ApplicationController
   def update
     @search = Search.find(params[:id])
     #populate_attributes(@search, params[:search])
-
+    @search.update_attributes(params[:search])
+    
     if params[:search_terms]
       @search.url = @website.search_url(params[:search_terms])
     end
