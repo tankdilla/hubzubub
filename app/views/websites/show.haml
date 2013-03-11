@@ -1,15 +1,18 @@
 %p
-	Website:
-	= @website.base_url
+  Website:
+  = @website.base_url
+- unless @website.description.blank?
+  %p
+    = @website.description
 %p
-	Query string:
-	= @website.query_string
+  Query string:
+  = @website.query_string
 %p
-	Next page param:
-	= @website.next_page_param
+  Next page param:
+  = @website.next_page_param
 %p
-	Next page increment:
-	= @website.next_page_increment
+  Next page increment:
+  = @website.next_page_increment
 
 %p
 = link_to 'Home', root_path

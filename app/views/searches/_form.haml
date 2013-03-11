@@ -1,27 +1,7 @@
 .search_url
   = render 'search_url'
-%p
 
-.search_form  
-  = form_for(@search, :url=>edit_website_search_url(@website, @search), :html=>{:method=>:get, :id=>'search'}, :remote=>true) do |f|
-    = f.label "Search terms (separated by space)"
-    #search_field
-      = text_field_tag :search_terms, nil, :class=>"span5"
-    .field
-      = f.label "Add site-specific params"
-      
-      - @site_search_params.each do |p|
-        %img{:src=>"...", :class=>"icon-plus"}
-        %img{:src=>"...", :class=>"icon-minus"}
-        = p.field_name
-        \=
-        = p.field_value
-        %br
-:javascript
-  $(function(){
-    
-    
-    $('#search_field').keyup(function() {
-      $("form#search").submit();
-    })
-  });
+- unless params[:action] == 'new'
+  %p
+  .search_form  
+    = render 'search_terms'

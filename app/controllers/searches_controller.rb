@@ -56,6 +56,8 @@ class SearchesController < ApplicationController
     @search = Search.new
 		@search_types = Search.search_types
     
+    @search.url = @website.search_url
+    
     @site_search_params = @website.website_params.search_params
     @site_parse_params = @website.website_params.parse_params
     
@@ -94,7 +96,7 @@ class SearchesController < ApplicationController
     respond_to do |format|
       if @search.save
         
-        format.html { redirect_to  [@website, @search], notice: 'Search was successfully created.' }
+        format.html { redirect_to  edit_website_search_url(@website, @search), notice: 'Search was successfully created.' }
         format.json { render json: @search, status: :created, location: @search }
       else
         format.html { render action: "new" }

@@ -1,5 +1,6 @@
 class Website < Entity
 	field :base_url
+  field :description
 	field :query_string
 
 	field :next_page_param
@@ -11,7 +12,11 @@ class Website < Entity
 	before_create :set_defaults
 	
 	embeds_many :website_params
-
+  
+  def site_description
+    description || base_url
+  end
+  
 	def create_search(search_term, format=nil)
 		s = Search.new(website: self, url: search_url(search_term))
 		unless format.nil?
@@ -22,7 +27,7 @@ class Website < Entity
 		s
 	end
 
-	def search_url(search_terms)
+	def search_url(search_terms="")
 		if !website_params.blank? && website_params.collect(&:field_name).include?('search_url_format')
 			#todo: user-specified params will allow custom search. still to be determined how best to do this
 		else

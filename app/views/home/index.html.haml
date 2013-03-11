@@ -23,4 +23,4 @@
 	%ul	
 	- @websites.each do |w|
 		%li
-			= link_to w.base_url, website_path(w)
+			= link_to w.site_description, website_path(w)

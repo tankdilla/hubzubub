@@ -14,8 +14,8 @@ class HomeController < ApplicationController
     	flash[:notice] = "Business not found."
     end
 	
-	@persons = Person.all
-	@businesses = Business.all
+	  @persons = Person.all
+	  @businesses = Business.all
     @websites = Website.all
   end
 end
