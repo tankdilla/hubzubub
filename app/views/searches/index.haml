@@ -1,11 +1,15 @@
 %p
-	Searches on
-	= @website.base_url
+  Searches on
+  = @website.base_url
 
 - unless @website.searches.blank?
-	%ul
-		- @website.searches.each do |s|
-			= link_to s.url, website_search_path(@website, s)
+  %ul
+    - @website.searches.each do |s|
+      %li
+        - if s.description
+          = s.description
+        = link_to s.url, website_search_path(@website, s)
 
-%p
-	= link_to "New Search", new_website_search_path(@website)
+= link_to "Website", website_path(@website)
+\|
+= link_to "New Search", new_website_search_path(@website)

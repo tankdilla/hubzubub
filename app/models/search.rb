@@ -3,14 +3,20 @@ require 'nokogiri'
 class Search
   include Mongoid::Document
   field :url
+  field :description
 	field :search_type
   field :format
+  field :selector
+  field :terms, type: Array
 
   belongs_to :website
+  has_and_belongs_to_many :search_sets
+
+  has_many :search_runs
 
   def run_search
   	return nil if url.nil?
-  	
+
   	case format
   	when 'json'
   		json_search
@@ -27,23 +33,39 @@ class Search
   	JSON.parse(open(url))
   end
 
-	def find_term_in_results#(search_term)
-		
+  def long_description
+    "#{website.site_description} - #{self.description}"
+  end
+
+	def scan(terms=[])
+
 		results_array = Array.new
-		#return nil if result.blank?
-		doc = Nokogiri::HTML(run_search) #(result)
-		if true #website.base_url.ends_with?('www.google.com')
-		  doc.xpath('//cite').each do |node|
-		    results_array << node.text
-		  end
-		end
-		results_array
+
+		doc = Nokogiri::HTML(run_search)
+
+    doc.css(self.selector).each do |node|
+      # binding.pry
+
+      if self.terms.present?
+        self.terms.split(' ').each do |term|
+          if node.text.scan(term).present?
+            results_array << {text: node.text, url: node['href']}
+            break
+          end
+        end
+      else
+        results_array << {text: node.text, url: node['href']}
+      end
+
+    end
+
+    results_array
 	end
-	
+
 	def self.search_types
 		['search_site', 'parse_page']
 	end
-	
+
 end
 
 class HtmlParserIncluded < HTTParty::Parser

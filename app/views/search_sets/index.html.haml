@@ -1,0 +1,21 @@
+%h1 Listing search_sets
+
+%table
+  %tr
+    %th Title
+    %th Description
+    %th
+    %th
+    %th
+
+  - @search_sets.each do |search_set|
+    %tr
+      %td= search_set.title
+      %td= search_set.description
+      %td= link_to 'Show', search_set
+      %td= link_to 'Edit', edit_search_set_path(search_set)
+      %td= link_to 'Destroy', search_set, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Search set', new_search_set_path

@@ -1,5 +1,5 @@
 class SearchesController < ApplicationController
-  
+
   before_filter :find_website
 
   # GET /searchs
@@ -17,32 +17,30 @@ class SearchesController < ApplicationController
   # GET /searchs/1.json
   def show
     @search = Search.find(params[:id])
-		@persons = Person.all
-		@person_results = Array.new
-		@found_websites = Array.new
-		search_results = Array.new
-		
-		if params[:search_result]
-      
-			if params[:search_result][:person_id]
-				person = Person.where(id: params[:search_result][:person_id]).first
-				if person
-					search_results = @search.find_term_in_results#(person.name)
-					@person_results = person.create_activities(search_results) unless search_results.blank?
-				end
-			end
-		end
-		
-		if !search_results.blank?
-			results = search_results.collect{|r| r.split("/").select{|s| Website.url_pattern?(s)}.first}.compact.uniq
-			results.each do |r|
-				existing_website = Website.where(url: "http://#{r}").or(url: "https://#{r}").first
-				if existing_website.nil?
-					@found_websites << r
-				end
-			end
-			
-		end
+    @search_run = SearchRun.new
+
+		# if params[:search_result]
+
+  #     search_terms =
+  #       if params[:search_result][:use_description_terms] == '1'
+  #         @search.description.split(' ')
+  #       else
+  #         []
+  #       end
+
+  #     search_results = @search.scan(params[:search_result][:selector], search_terms)
+
+  #     search_run = SearchRun.new(search_url: @website.search_url, selector: params[:search_result][:selector])
+  #     @search.search_runs << search_run
+
+  #     search_results.each do |result|
+  #       url = result[:url]
+
+  #       url = @website.base_url + result[:url] if result[:url].start_with?('/')
+
+  #       search_run.search_run_results << SearchRunResult.new(text: result[:text], url: url)
+  #     end
+		# end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -55,12 +53,12 @@ class SearchesController < ApplicationController
   def new
     @search = Search.new
 		@search_types = Search.search_types
-    
+
     @search.url = @website.search_url
-    
+
     @site_search_params = @website.website_params.search_params
     @site_parse_params = @website.website_params.parse_params
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @search }
@@ -73,11 +71,11 @@ class SearchesController < ApplicationController
 		@search_types = Search.search_types
     @site_search_params = @website.website_params.search_params
     @site_parse_params = @website.website_params.parse_params
-    
+
     if params[:search_terms]
       @search.url = @website.search_url(params[:search_terms])
     end
-    
+
     respond_to do |format|
       format.html
       format.js
@@ -88,15 +86,15 @@ class SearchesController < ApplicationController
   # POST /searchs.json
   def create
     @search = @website.searches.new params[:search]
-		
-		if params[:search_terms]
-			@search.url = @website.search_url(params[:search_terms])
-		end
-    
+
+		@search.url = @website.search_url(params[:search_terms]) if params[:search_terms]
+
+    @search.terms = @search.description.split(' ') if params[:use_description_terms]
+
     respond_to do |format|
       if @search.save
-        
-        format.html { redirect_to  edit_website_search_url(@website, @search), notice: 'Search was successfully created.' }
+
+        format.html { redirect_to  website_search_url(@website, @search), notice: 'Search was successfully created.' }
         format.json { render json: @search, status: :created, location: @search }
       else
         format.html { render action: "new" }
@@ -111,13 +109,13 @@ class SearchesController < ApplicationController
     @search = Search.find(params[:id])
     #populate_attributes(@search, params[:search])
     @search.update_attributes(params[:search])
-    
+
     if params[:search_terms]
       @search.url = @website.search_url(params[:search_terms])
     end
 
     respond_to do |format|
-      
+
       if @search.save
         format.html { redirect_to [@website, @search], notice: 'Search was successfully updated.' }
         format.json { head :no_content }
@@ -139,7 +137,7 @@ class SearchesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   private
   def populate_attributes(instance, params)
   	if params && params.is_a?(Hash) && !params.keys.empty?
@@ -149,7 +147,7 @@ class SearchesController < ApplicationController
         end
   	  end
   	end
-	
+
 	 instance
   end
 

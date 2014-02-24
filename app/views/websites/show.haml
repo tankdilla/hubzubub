@@ -1,26 +1,40 @@
 %p
-  Website:
   = @website.base_url
-- unless @website.description.blank?
+  - if @website.description
+    = "(#{@website.description})"
+
+- unless @website.searches.blank?
   %p
-    = @website.description
-%p
-  Query string:
-  = @website.query_string
-%p
-  Next page param:
-  = @website.next_page_param
-%p
-  Next page increment:
-  = @website.next_page_increment
+    Searches on
+    = @website.base_url
+
+  %ul
+    - @website.searches.each do |s|
+      %li
+        - if s.description
+          = s.description
+        = link_to s.url, website_search_path(@website, s)
+
+- if @website.query_string.present?
+  %p
+    Query string:
+    = @website.query_string
+
+- if @website.next_page_param.present?
+  %p
+    Next page param:
+    = @website.next_page_param
+
+- if @website.next_page_increment.present?
+  %p
+    Next page increment:
+    = @website.next_page_increment
 
 %p
 = link_to 'Home', root_path
 \|
-= link_to 'Search', website_searches_path(@website)
-\|
-= link_to 'Site Params', website_params_path(@website)
-\|
 = link_to 'Edit', edit_website_path(@website)
+\|
+= link_to "New Search", new_website_search_path(@website)
 \|
 = link_to 'Destroy', @website, :confirm => 'Are you sure?', :method => :delete

@@ -1,0 +1,19 @@
+= form_for @search_set do |f|
+  - if @search_set.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@search_set.errors.count, "error")} prohibited this search_set from being saved:"
+      %ul
+        - @search_set.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :description
+    = f.text_field :description
+  .field
+    = f.label 'Searches'
+    = f.collection_select :searches, @searches, :id, :long_description, {}, {multiple: true, name: 'search_set[searches][]'}
+  .actions
+    = f.submit 'Save'

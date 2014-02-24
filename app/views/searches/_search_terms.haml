@@ -4,18 +4,30 @@
     = text_field_tag :search_terms, nil, :class=>"span5"
   .field
     = f.label "Add site-specific params"
-    
+
+    - if @website.next_page_param && @website.next_page_increment
+      %p
+        %button#next_page Add
+
+        %span#next_page_param
+          = "#{@website.next_page_param}=#{@website.next_page_increment}"
+
     - @site_search_params.each do |p|
-      %img{:src=>"...", :class=>"icon-plus"}
-      %img{:src=>"...", :class=>"icon-minus"}
+      %button Add
       = p.field_name
       \=
       = p.field_value
-      %br
+    %br
+
 :javascript
   $(function(){
-    
+
     $('#search_field').keyup(function() {
       $("form#search").submit();
     })
+
+    $('button#next_page').click(function() {
+
+    })
+
   });

@@ -1,0 +1,10 @@
+%ul
+  - @search_run.search_run_results.each do |result|
+    %li
+      = result.text
+      = link_to result.url, result.url
+
+%p
+  = link_to "Back to Search", website_search_path(@website, @search)
+  \|
+  = link_to "Destroy", website_search_run_path(@website, @search, @search_run), :confirm => 'Are you sure?', :method => :delete

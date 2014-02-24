@@ -1,0 +1,18 @@
+%p
+  %b Title:
+  = @search_set.title
+%p
+  %b Description:
+  = @search_set.description
+%p
+  %b Searches
+  %ul
+    - @search_set.searches.each do |search|
+      %li
+        = link_to search.long_description, website_search_path(search.website, search)
+
+= link_to 'Edit', edit_search_set_path(@search_set)
+\|
+= link_to 'Destroy', @search_set, :confirm => 'Are you sure?', :method => :delete
+\|
+= link_to 'Back', search_sets_path

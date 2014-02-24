@@ -1,13 +1,11 @@
 class Person < Entity
 
-  has_many :addresses
-  belongs_to :profile
   has_many :identifiable_entries, :dependent=>:destroy
 	has_many :activities
-  
+
   before_validation :set_defaults
   validates_presence_of :name
-  
+
   def set_defaults
     if self.name.blank?
       self.name = identifier_value
@@ -31,7 +29,7 @@ class Person < Entity
   def identifier_value
     identifier.field_value unless identifier.nil?
   end
-  
+
   def create_activities(links)
 		activity_links = activities.collect(&:url)
 		recorded_time = Time.now
@@ -44,7 +42,7 @@ class Person < Entity
 		end
 		return self.activities.where(recorded_at: recorded_time)
   end
-  
+
   class << self
     def initialize_identifiables #may move to some kind of initializer
       %w{email_address webpage twitter handle}.each do |i|

@@ -10,10 +10,21 @@
     = f.label "Website:"
     = @website.base_url
   .field
-    - Search.search_types.each do |s|
-      = f.radio_button :search_type, s
-      = f.label s
+    = f.label "Description:"
+    = f.text_field :description
   .field
     = f.label "Search url: "
     = f.text_field :url, :class=>"span5"
-    = f.submit 'Save'
+  .field
+    = f.label 'CSS Selector'
+    = f.text_field :selector
+
+  - if params[:action] == 'new'
+    .field
+      = check_box_tag(:use_description_terms)
+      Search for description in results
+  - elsif params[:action] == 'edit'
+    = f.label 'Search Terms'
+    = f.text_field :terms
+  %br
+  = f.submit 'Save'

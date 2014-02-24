@@ -1,0 +1,16 @@
+- if !@found_websites.blank?
+  = form_for(:found_websites, :url=>multi_create_website_path(@website)) do |f|
+    %p
+      New websites found. Select to add
+      - @found_websites.each do |f|
+        %br
+          = check_box_tag("add_websites[]", f, true)
+          = f
+      = f.submit "Add"
+- if !@person_results.blank?
+  %p
+    Created activities
+    %ul
+      - @person_results.each do |a|
+        %li
+          = "#{a.person.name}: #{a.url}"

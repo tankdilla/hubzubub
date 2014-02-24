@@ -1,26 +1,20 @@
 %p
-	= link_to "Add a person", new_person_path
+  = link_to "Add a website", new_website_path
+
 %p
-	= link_to "Add a business", new_business_path
+  - unless @websites.blank?
+    Websites
+    %ul
+    - @websites.each do |w|
+      %li
+        = link_to w.site_description, website_path(w)
+
 %p
-	= link_to "Add a website", new_website_path
+  = link_to "Create Search Set", new_search_set_path
 
-- unless @persons.blank?
-	People
-	%ul	
-	- @persons.each do |p|
-		%li
-			= link_to p.name, person_path(p)
-
-- unless @businesses.blank?
-	%p
-		Company
-		- @businesses.each do |b|
-			= link_to b.name, business_path(b)
-
-- unless @websites.blank?
-	Sites
-	%ul	
-	- @websites.each do |w|
-		%li
-			= link_to w.site_description, website_path(w)
+- unless @search_sets.blank?
+  Search Sets
+  %ul
+  - @search_sets.each do |set|
+    %li
+      = link_to set.title, search_set_path(set)
