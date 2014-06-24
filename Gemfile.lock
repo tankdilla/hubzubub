@@ -163,6 +163,7 @@ GEM
       mini_portile (~> 0.5.0)
     origin (1.1.0)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     polyglot (0.3.3)
     posix-spawn (0.3.8)
     pry (0.9.12.6)
@@ -295,6 +296,7 @@ DEPENDENCIES
   mongoid (>= 3.0.15)
   mongoid-rspec (>= 1.5.5)
   nokogiri
+  pg
   pry-rails
   quiet_assets (>= 1.0.1)
   rails (= 3.2.13)

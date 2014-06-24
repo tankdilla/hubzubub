@@ -16,6 +16,11 @@ group :development do
 	gem "binding_of_caller", ">= 0.6.8"
 	gem 'pry-rails'
 end
+
+group :production do
+  gem 'pg'
+end
+
 gem "therubyracer"
 gem 'jquery-rails'
 gem "thin", ">= 1.5.0"
